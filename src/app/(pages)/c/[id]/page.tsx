@@ -2,7 +2,7 @@
 export default function Compare() {
   return (
     <div>
-      비교 페이지
+      문서(보기) 페이지
     </div>
   );
 }
