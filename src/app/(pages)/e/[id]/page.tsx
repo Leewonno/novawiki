@@ -3,12 +3,10 @@ import { WikiEditor } from "@/shared";
 export default function Edit() {
   return (
     <div>
-      <WikiEditor content="" />
-      편집 페이지
-      {/* <textarea>
-      </textarea>
       <div>
-      </div> */}
+        <input type="text" placeholder="문서 제목 입력" />
+      </div>
+      <WikiEditor content="" />
     </div>
   );
 }
