@@ -7,3 +7,6 @@ export { Api } from './lIb/api/api'
 
 // ui
 export { Layout } from './ui/Layout'
+
+// shadcn
+export { Button } from './ui/shadcn/button'
