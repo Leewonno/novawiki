@@ -1,3 +1,9 @@
-export { WikiEditor } from './components';
+// wiki
+export { WikiEditor } from './components/WikiEditor';
+export { WikiViewer } from './components/WikiViewer';
 
+// api
 export { Api } from './lIb/api/api'
+
+// ui
+export { Layout } from './ui/Layout'
