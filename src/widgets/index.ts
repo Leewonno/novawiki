@@ -1,0 +1,1 @@
+export { WikiDiffViewer } from './compare/WikiDiffViewer'

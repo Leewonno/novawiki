@@ -26,7 +26,7 @@ function highlightWordDiff(oldLine: string, newLine: string): React.ReactNode[] 
   });
 }
 
-export default function WikiDiffViewer({ oldText, newText }: { oldText: string, newText: string }) {
+export function WikiDiffViewer({ oldText, newText }: { oldText: string, newText: string }) {
   const lineDiff = diffLines(oldText, newText);
 
   const rows = [];
