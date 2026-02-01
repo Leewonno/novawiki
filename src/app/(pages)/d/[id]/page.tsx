@@ -1,4 +1,4 @@
-import { WikiViewer } from "@/shared";
+import { Button, WikiViewer } from "@/shared";
 
 export default function Document() {
   return (
@@ -8,9 +8,9 @@ export default function Document() {
         <div>
           <h1>문서제목</h1>
           <div>
-            <button>수정</button>
-            <button>삭제</button>
-            <button>역사</button>
+            <Button>수정</Button>
+            <Button>삭제</Button>
+            <Button>역사</Button>
           </div>
         </div>
         <div>
