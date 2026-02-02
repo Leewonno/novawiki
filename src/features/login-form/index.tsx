@@ -51,8 +51,8 @@ export function LoginForm() {
             onChange={handlePasswordChange}
           />
         </Field>
-        <FieldDescription>
-          {state?.error && <p className="text-red-500 text-sm">{state.error}</p>}
+        <FieldDescription className="text-red-500">
+          {state.error}
         </FieldDescription>
         <Button type="submit" className="w-full cursor-pointer">
           로그인
