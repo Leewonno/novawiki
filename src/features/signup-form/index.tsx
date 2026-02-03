@@ -1,13 +1,6 @@
 "use client";
 
 import { signUp } from "@/app/actions/auth";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/shadcn/field";
-import { Input } from "@/components/ui/shadcn/input";
 import { startTransition, useActionState, useEffect, useState } from "react";
 import {
   validateNick,
@@ -15,7 +8,16 @@ import {
   validatePasswordChk,
   validateUserid,
 } from "./utils/validate";
-import { Button, Card } from "@/components";
+import {
+  Button,
+  Card,
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  Input,
+} from "@/components";
+import { toastWrapper } from "@/lib/utils/common";
 
 export function SignUpForm() {
   // 아이디
@@ -39,8 +41,8 @@ export function SignUpForm() {
   const [state, formAction] = useActionState(signUp, { error: null });
 
   useEffect(() => {
-    console.log(state);
-    // Toast UI 띄우기
+    if (!state.error) return;
+    toastWrapper(state.error, `${new Date()}`);
   }, [state]);
 
   // 아이디
@@ -88,6 +90,26 @@ export function SignUpForm() {
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!isValidUserid) {
+      toastWrapper("유효하지 않은 아이디입니다.", `${new Date()}`);
+      return;
+    }
+
+    if (!isValidPassword) {
+      toastWrapper("유효하지 않은 비밀번호입니다.", `${new Date()}`);
+      return;
+    }
+
+    if (!isValidPasswordChk) {
+      toastWrapper("비밀번호가 일치하지 않습니다.", `${new Date()}`);
+      return;
+    }
+
+    if (!isValidNick) {
+      toastWrapper("유효하지 않은 닉네임입니다.", `${new Date()}`);
+      return;
+    }
+
     const form = e.currentTarget;
     const formData = new FormData(form);
     startTransition(() => {
@@ -96,7 +118,7 @@ export function SignUpForm() {
   };
 
   return (
-    <Card className="p-5">
+    <Card className="p-7 pt-10 pb-10">
       <form action={formAction} className="w-100" onSubmit={handleSignUpSubmit}>
         <FieldGroup>
           <Field data-invalid={!!useridError}>

@@ -10,4 +10,5 @@ export { WikiEditor } from "./wiki-editor";
 export { WikiViewer } from "./wiki-viewer";
 
 // Home
-export { HomeCarousel } from './home-carousel'
+export { HomeCarousel } from "./home-carousel";
+export { HomeCard } from "./home-card";
