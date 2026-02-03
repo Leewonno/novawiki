@@ -12,3 +12,4 @@ export { WikiViewer } from "./wiki-viewer";
 // Home
 export { HomeCarousel } from "./home-carousel";
 export { HomeCard } from "./home-card";
+export { HomeRecentCard } from "./home-recent-card";

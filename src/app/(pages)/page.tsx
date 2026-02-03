@@ -1,4 +1,4 @@
-import { HomeCard, HomeCarousel } from "@/features";
+import { HomeCard, HomeCarousel, HomeRecentCard } from "@/features";
 
 const mockPopular = [
   {
@@ -31,6 +31,17 @@ const mockPopular = [
   },
 ];
 
+const mockRecent = [
+  { title: "아이폰", time: "10분 전" },
+  { title: "챔피언스 리그", time: "25분 전" },
+  { title: "토트넘 홋스퍼", time: "1시간 전" },
+  { title: "RB 라이프치히", time: "2시간 전" },
+  { title: "대한민국", time: "3시간 전" },
+  { title: "인공지능", time: "4시간 전" },
+  { title: "위키백과", time: "5시간 전" },
+  { title: "서울특별시", time: "6시간 전" },
+]
+
 export default function Home() {
   return (
     <div className="w-300 flex flex-col items-center gap-10">
@@ -43,7 +54,7 @@ export default function Home() {
           <h2 className="text-lg font-bold mb-4">오늘의 인기 문서</h2>
           <div className="flex flex-col gap-3">
             {mockPopular.map((doc, i) => (
-              <HomeCard key={`${i}${doc.title}`} index={i} doc={doc} />
+              <HomeCard key={`${i}${doc.title}pop`} index={i} doc={doc} />
             ))}
           </div>
         </div>
@@ -52,30 +63,8 @@ export default function Home() {
         <div className="col-span-1">
           <h2 className="text-lg font-bold mb-4">최근 수정 문서</h2>
           <div className="rounded-lg border divide-y">
-            {[
-              { title: "아이폰", time: "10분 전" },
-              { title: "챔피언스 리그", time: "25분 전" },
-              { title: "토트넘 홋스퍼", time: "1시간 전" },
-              { title: "RB 라이프치히", time: "2시간 전" },
-              { title: "대한민국", time: "3시간 전" },
-              { title: "인공지능", time: "4시간 전" },
-              { title: "위키백과", time: "5시간 전" },
-              { title: "서울특별시", time: "6시간 전" },
-            ].map((doc, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between px-4 py-3 hover:bg-muted/50 transition-colors cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-muted-foreground w-5 text-center">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm font-medium">{doc.title}</span>
-                </div>
-                <span className="text-xs text-muted-foreground">
-                  {doc.time}
-                </span>
-              </div>
+            {mockRecent.map((doc, i) => (
+              <HomeRecentCard key={`${i}${doc.title}rec`} index={i} doc={doc} />
             ))}
           </div>
         </div>
