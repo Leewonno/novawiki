@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/shadcn/input-group";
 import Link from "next/link";
@@ -8,11 +10,21 @@ import { useUserStore } from "@/store/useUserStore";
 import { logout } from "@/app/actions/auth";
 
 export function Header() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const { isAuthenticated, isLoading, clearUser } = useUserStore();
+
   const handleLogout = async () => {
     await logout();
     clearUser();
   };
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <header className="flex justify-center border-b-1">
       <div className="flex justify-between w-full lg:w-[1200px] h-[60px]">
@@ -26,7 +38,12 @@ export function Header() {
         <div className="flex items-center gap-5">
           <div className="flex">
             <InputGroup>
-              <InputGroupInput placeholder="Search..." />
+              <InputGroupInput
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleSearch}
+              />
               <InputGroupAddon>
                 <SearchIcon />
               </InputGroupAddon>

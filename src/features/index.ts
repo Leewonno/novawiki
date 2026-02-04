@@ -6,6 +6,7 @@ export { SignUpForm } from "./signup-form";
 
 // Wiki
 export { WikiDiffViewer } from "./wiki-differ";
+export { SideBySideDiff } from "./wiki-differ/SideBySideDiff";
 export { WikiEditor } from "./wiki-editor";
 export { WikiViewer } from "./wiki-viewer";
 
@@ -13,3 +14,10 @@ export { WikiViewer } from "./wiki-viewer";
 export { HomeCarousel } from "./home-carousel";
 export { HomeCard } from "./home-card";
 export { HomeRecentCard } from "./home-recent-card";
+
+// Search
+export { SearchResultCard } from "./search-result-card";
+export { SearchResultSection } from "./search-result-section";
+
+// History
+export { HistoryList } from "./history-list";
