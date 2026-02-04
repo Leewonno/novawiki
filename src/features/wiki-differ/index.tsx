@@ -1,9 +1,8 @@
 "use client";
 
 import "./style/diff.css";
-import React, { useEffect } from "react";
+import React from "react";
 import { diffLines, diffWords } from "diff";
-import { useToastStore } from "@/store/useToastStore";
 
 function highlightWordDiff(
   oldLine: string,
@@ -89,19 +88,10 @@ export function WikiDiffViewer({
     i++;
   }
 
-  const { addToast } = useToastStore();
-  useEffect(() => {
-    addToast("저장되었습니다", "error");
-    addToast("저장되었습니다", "success");
-    addToast("저장되었습니다", "success");
-  }, [addToast]);
-
   return (
     <div
       className="wiki-diff"
-      onClick={() => addToast("저장되었습니다", "success")}
     >
-      {" "}
       {rows}
     </div>
   );

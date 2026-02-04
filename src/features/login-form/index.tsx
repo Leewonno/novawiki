@@ -9,9 +9,14 @@ import {
   FieldLabel,
 } from "@/components/ui/shadcn/field";
 import { Input } from "@/components/ui/shadcn/input";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/useUserStore";
 
 export function LoginForm() {
+  const router = useRouter();
+  const { setUser } = useUserStore();
+
   // 아이디
   const [userid, setUserid] = useState<string>("");
   // 비밀번호
@@ -30,6 +35,14 @@ export function LoginForm() {
   };
 
   const [state, formAction] = useActionState(login, { error: null });
+
+  // 로그인 성공 시 클라이언트에서 세션 확인 후 리다이렉트
+  useEffect(() => {
+    if (state.success && state.id) {
+      setUser({ id: state.id })
+      router.push('/');
+    }
+  }, [state.success, state.id, router, setUser]);
 
   return (
     <Card className="p-7 pt-10 pb-10">
