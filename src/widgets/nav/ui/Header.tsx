@@ -1,13 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/shadcn/input-group";
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
-import { SearchIcon } from 'lucide-react';
-import { useUserStore } from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { logout } from "@/app/actions/auth";
+import { Button } from "@/components";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/shadcn/input-group";
+import { useUserStore } from "@/store/useUserStore";
 
 export function Header() {
   const router = useRouter();
@@ -30,9 +34,7 @@ export function Header() {
       <div className="flex justify-between w-full lg:w-[1200px] h-[60px]">
         <div className="flex items-center">
           <div className="font-extrabold text-2xl tracking-tighter">
-            <Link href="/">
-              NOVAWIKI
-            </Link>
+            <Link href="/">NOVAWIKI</Link>
           </div>
         </div>
         <div className="flex items-center gap-5">
@@ -53,13 +55,13 @@ export function Header() {
             {isLoading ? (
               <div className="w-20 h-9 bg-gray-200 animate-pulse rounded" />
             ) : isAuthenticated ? (
-                <Button
-                  variant="outline"
-                  className="cursor-pointer"
-                  onClick={() => handleLogout()}
-                >
-                  로그아웃
-                </Button>
+              <Button
+                variant="outline"
+                className="cursor-pointer"
+                onClick={() => handleLogout()}
+              >
+                로그아웃
+              </Button>
             ) : (
               <>
                 <Link href="/login">

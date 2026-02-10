@@ -14,7 +14,7 @@ export async function GET(req: Request) {
       user:document_user_id_fkey (
       nick
     )
-  `
+  `,
     )
     .eq("primaryTitle", tanslatePrimaryTitle(id))
     .eq("isBlock", false)

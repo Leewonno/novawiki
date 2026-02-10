@@ -10,7 +10,7 @@ export async function GET() {
       email,
       nick
     )
-  `
+  `,
     )
     .eq("isBlock", false)
     .eq("isDisplay", true)

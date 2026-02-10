@@ -1,10 +1,10 @@
-import { DocumentType } from "@/entities";
+import type { DocumentType } from "@/entities";
 import { HomeCard, HomeCarousel, HomeRecentCard } from "@/features";
 
 async function getPopDocs(): Promise<DocumentType[]> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/document/popular`,
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 60 } },
   );
   if (!res.ok) throw new Error("Failed to fetch popular docs");
   return res.json();
@@ -13,7 +13,7 @@ async function getPopDocs(): Promise<DocumentType[]> {
 async function getRecentDocs(): Promise<DocumentType[]> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/document/recent`,
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 60 } },
   );
   if (!res.ok) throw new Error("Failed to fetch popular docs");
   return res.json();

@@ -12,7 +12,7 @@ export interface DocumentState {
 /** 문서 생성/수정 */
 export async function writeDocument(
   prevState: DocumentState,
-  formData: FormData
+  formData: FormData,
 ): Promise<DocumentState> {
   const supabase = await createClient();
 
@@ -85,7 +85,7 @@ export async function writeDocument(
         p_content: content,
         p_comment: comment,
         p_user_id: user.id,
-      }
+      },
     );
     if (rpcError) {
       return { error: "문서 수정에 실패했습니다." };

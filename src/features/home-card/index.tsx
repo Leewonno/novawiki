@@ -1,6 +1,6 @@
-import { DocumentType } from "@/entities";
-import { extractContentPreview, getRelativeTime } from "@/lib/utils/common";
 import Link from "next/link";
+import type { DocumentType } from "@/entities";
+import { extractContentPreview, getRelativeTime } from "@/lib/utils/common";
 
 type HomeCardProps = {
   index: number;

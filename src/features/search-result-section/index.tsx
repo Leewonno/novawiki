@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components";
-import { SearchResultCard } from "../search-result-card";
 import Link from "next/link";
-import { DocumentType } from "@/entities";
+import { Button } from "@/components";
+import type { DocumentType } from "@/entities";
+import { SearchResultCard } from "../search-result-card";
 
 type SearchResultSectionProps = {
   title: string;

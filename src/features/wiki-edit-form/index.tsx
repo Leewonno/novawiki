@@ -1,13 +1,13 @@
 "use client";
 
-import { startTransition, useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { WikiEditor } from "../wiki-editor";
+import { startTransition, useActionState, useEffect, useState } from "react";
+import { writeDocument } from "@/app/actions/document";
+import { Button } from "@/components";
 import { Input } from "@/components/ui/shadcn/input";
 import { Textarea } from "@/components/ui/shadcn/textarea";
-import { Button } from "@/components";
-import { writeDocument } from "@/app/actions/document";
 import { simpleMessageToast } from "@/lib/utils/common";
+import { WikiEditor } from "../wiki-editor";
 
 type WikiEditFormProps = {
   initialTitle: string;

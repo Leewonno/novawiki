@@ -1,9 +1,9 @@
-import { DocumentType } from "@/entities";
+import type { DocumentType } from "@/entities";
 import { SearchResultSection } from "@/features";
 import { fetcher } from "@/lib/utils/fetcher";
 
 async function getSearchDocs(
-  q: string
+  q: string,
 ): Promise<[DocumentType[], DocumentType[]]> {
   const data = await fetcher(`/api/document/search?q=${q}`);
   return data;
