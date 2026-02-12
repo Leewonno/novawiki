@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useMemo } from "react";
 import { diffLines, diffWords } from "diff";
+import type React from "react";
+import { useMemo } from "react";
 
 type DiffLine = {
   type: "added" | "removed" | "normal" | "modified";
@@ -12,7 +13,7 @@ type DiffLine = {
 function highlightChanges(
   oldLine: string,
   newLine: string,
-  side: "old" | "new"
+  side: "old" | "new",
 ): React.ReactNode {
   const wordDiff = diffWords(oldLine, newLine);
 
@@ -69,7 +70,7 @@ export function WikiDiffer({
           highlightedContent: highlightChanges(
             removedContent,
             addedContent,
-            "old"
+            "old",
           ),
         });
         newLines.push({
@@ -78,7 +79,7 @@ export function WikiDiffer({
           highlightedContent: highlightChanges(
             removedContent,
             addedContent,
-            "new"
+            "new",
           ),
         });
 
@@ -88,7 +89,10 @@ export function WikiDiffer({
 
       if (part.added) {
         oldLines.push({ type: "normal", content: "" });
-        newLines.push({ type: "added", content: part.value.replace(/\n$/, "") });
+        newLines.push({
+          type: "added",
+          content: part.value.replace(/\n$/, ""),
+        });
       } else if (part.removed) {
         oldLines.push({
           type: "removed",
@@ -101,7 +105,7 @@ export function WikiDiffer({
           .filter((_, idx, arr) =>
             idx < arr.length - 1 || part.value.slice(-1) !== "\n"
               ? true
-              : idx < arr.length - 1
+              : idx < arr.length - 1,
           );
         for (const line of lines) {
           oldLines.push({ type: "normal", content: line });

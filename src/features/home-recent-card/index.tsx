@@ -1,5 +1,5 @@
-import { getRelativeTime } from "@/lib/utils/common";
 import Link from "next/link";
+import { getRelativeTime } from "@/lib/utils/common";
 
 type HomeRecentCardProps = {
   index: number;

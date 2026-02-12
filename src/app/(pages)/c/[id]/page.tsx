@@ -1,6 +1,6 @@
-import { WikiDiffer } from "@/features";
-import { Button } from "@/components";
 import Link from "next/link";
+import { Button } from "@/components";
+import { WikiDiffer } from "@/features";
 
 const mockVersions: Record<number, string> = {
   30: `## 개요

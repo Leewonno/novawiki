@@ -11,7 +11,7 @@ type AuthState = {
 /** 로그인 */
 export async function login(
   prevState: AuthState,
-  formData: FormData
+  formData: FormData,
 ): Promise<AuthState> {
   const userid = formData.get("userid") as string;
   const password = formData.get("password") as string;
@@ -37,7 +37,7 @@ export async function login(
 /** 회원가입 */
 export async function signUp(
   prevState: AuthState,
-  formData: FormData
+  formData: FormData,
 ): Promise<AuthState> {
   // FormData
   const userid = formData.get("userid") as string;
@@ -97,7 +97,7 @@ export async function logout() {
 /** 비밀번호 변경 */
 export async function updatePassword(
   prevState: AuthState,
-  formData: FormData
+  formData: FormData,
 ): Promise<AuthState> {
   const newPassword = formData.get("newPassword") as string;
   const supabase = await createClient();

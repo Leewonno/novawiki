@@ -1,11 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components";
-import Link from "next/link";
+import type { DocumentType } from "@/entities";
 import { formatDateTime, simpleMessageToast } from "@/lib/utils/common";
 import { useUserStore } from "@/store/useUserStore";
-import { DocumentType } from "@/entities";
 
 type DocumentControlsProps = {
   doc: DocumentType;

@@ -1,13 +1,8 @@
 "use client";
 
-import { signUp } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  validateNick,
-  validatePassword,
-  validatePasswordChk,
-  validateUserid,
-} from "./utils/validate";
+import { signUp } from "@/app/actions/auth";
 import {
   Button,
   Card,
@@ -18,8 +13,13 @@ import {
   Input,
 } from "@/components";
 import { simpleMessageToast } from "@/lib/utils/common";
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
+import {
+  validateNick,
+  validatePassword,
+  validatePasswordChk,
+  validateUserid,
+} from "./utils/validate";
 
 export function SignUpForm() {
   // 아이디
@@ -106,14 +106,14 @@ export function SignUpForm() {
 
     const result = await signUp({ error: null }, formData);
     if (result.error) {
-      simpleMessageToast("회원가입 오류", result.error)
+      simpleMessageToast("회원가입 오류", result.error);
       return;
     }
     if (result.success && result.id) {
       setUser({ id: result.id });
-      router.push('/');
+      router.push("/");
     }
-  }
+  };
 
   return (
     <Card className="p-7 pt-10 pb-10">
