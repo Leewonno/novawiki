@@ -1,12 +1,11 @@
-import type { DocumentType } from "@/entities";
+import type { ApiResponse, DocumentType } from "@/entities";
 import { SearchResultSection } from "@/features";
 import { fetcher } from "@/lib/utils/fetcher";
 
 async function getSearchDocs(
   q: string,
-): Promise<[DocumentType[], DocumentType[]]> {
-  const data = await fetcher(`/api/document/search?q=${q}`);
-  return data;
+): Promise<ApiResponse<[DocumentType[], DocumentType[]]>> {
+  return fetcher(`/api/document/search?q=${q}`);
 }
 
 export default async function Search({
@@ -15,7 +14,10 @@ export default async function Search({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q } = await searchParams;
-  const [titleDocs, contentDocs] = await getSearchDocs(q || "");
+  const { data } = await getSearchDocs(q || "");
+  if (!data) return;
+
+  const [titleDocs, contentDocs] = data;
 
   // query 로 검색 API 요청
   const titleResults = titleDocs ? titleDocs : ([] as DocumentType[]);

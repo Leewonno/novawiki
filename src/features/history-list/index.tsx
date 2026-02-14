@@ -4,34 +4,22 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components";
-import { simpleMessageToast } from "@/lib/utils/common";
-
-type HistoryItem = {
-  version: number;
-  date: string;
-  user: string;
-  action: string;
-  comment: string;
-};
+import type { HistoryType } from "@/entities";
+import { getRelativeTime, simpleMessageToast } from "@/lib/utils/common";
 
 type HistoryListProps = {
-  documentId: string;
-  documentTitle: string;
-  history: HistoryItem[];
+  title: string;
+  history: HistoryType[];
 };
 
-export function HistoryList({
-  documentId,
-  documentTitle,
-  history,
-}: HistoryListProps) {
+export function HistoryList({ title, history }: HistoryListProps) {
   const router = useRouter();
   const [prevVersion, setPrevVersion] = useState<number | null>(null);
   const [nextVersion, setNextVersion] = useState<number | null>(null);
 
   const handleCompare = () => {
     if (prevVersion !== null && nextVersion !== null) {
-      router.push(`/c/${documentId}?prev=${prevVersion}&next=${nextVersion}`);
+      router.push(`/c/${title}?prev=${prevVersion}&next=${nextVersion}`);
       return;
     }
     simpleMessageToast("선택 오류", "비교할 버전을 선택해 주세요.");
@@ -41,11 +29,9 @@ export function HistoryList({
     <div className="w-full max-w-300 mx-auto flex flex-col gap-6">
       {/* 상단 제목 및 버튼 */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">
-          &apos;{documentTitle}&apos;의 이력 결과
-        </h1>
+        <h1 className="text-2xl font-bold">&apos;{title}&apos;의 이력 결과</h1>
         <div className="flex items-center gap-2">
-          <Link href={`/e/${documentId}`}>
+          <Link href={`/e/${title}`}>
             <Button variant="outline" className="cursor-pointer" size="sm">
               수정
             </Button>
@@ -73,7 +59,7 @@ export function HistoryList({
         <div className="divide-y">
           {history.map((item) => (
             <div
-              key={item.version}
+              key={item.id}
               className="grid grid-cols-[60px_60px_60px_120px_120px_100px_1fr] gap-4 px-4 py-3 text-sm hover:bg-muted/30 transition-colors"
             >
               <div className="flex justify-center">
@@ -96,11 +82,11 @@ export function HistoryList({
               </div>
               <div className="font-medium text-center">v{item.version}</div>
               <div className="text-muted-foreground text-center">
-                {item.date}
+                {getRelativeTime(item.created_at)}
               </div>
-              <div className="text-center">{item.user}</div>
+              <div className="text-center">{item.user?.nick}</div>
               <div className="text-muted-foreground text-center">
-                {item.action}
+                {/* {item.action} */}
               </div>
               <div className="text-muted-foreground text-center">
                 {item.comment}

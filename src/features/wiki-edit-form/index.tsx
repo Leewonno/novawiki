@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { startTransition, useActionState, useEffect, useState } from "react";
+import { useState, useTransition } from "react";
 import { writeDocument } from "@/app/actions/document";
 import { Button } from "@/components";
 import { Input } from "@/components/ui/shadcn/input";
@@ -26,9 +26,7 @@ export function WikiEditForm({
   const [comment, setComment] = useState("");
   const [agreed, setAgreed] = useState(false);
 
-  const [state, formAction, isPending] = useActionState(writeDocument, {
-    error: null,
-  });
+  const [isPending, startTransition] = useTransition();
 
   const handleCancel = () => {
     if (isNew) {
@@ -38,33 +36,34 @@ export function WikiEditForm({
     }
   };
 
-  useEffect(() => {
-    const { error, isExisting, success } = state;
-    if (success) {
-      router.push(`/d/${title}`);
-    }
-    if (isExisting) {
-      router.push(`/h/${title}`);
-    }
-    if (!error) return;
-    simpleMessageToast("오류", error);
-  }, [state]);
-
-  // 폼 저장
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    startTransition(() => {
-      formAction(formData);
+  const handleAction = async (formData: FormData) => {
+    startTransition(async () => {
+      const { error, success, isExisting } = await writeDocument(
+        { error: null },
+        formData,
+      );
+      // 성공
+      if (success) {
+        router.push(`/d/${title}`);
+        return;
+      }
+      // 이미 존재하는 문서
+      if (isExisting && error) {
+        simpleMessageToast("저장 오류", error);
+        router.push(`/h/${title}`);
+        return;
+      }
+      // 알 수 없는 오류
+      if (error) {
+        simpleMessageToast("저장 오류", error);
+        return;
+      }
     });
   };
 
   return (
     <form
-      action={formAction}
-      onSubmit={handleSubmit}
+      action={handleAction}
       className="w-full max-w-300 mx-auto flex flex-col gap-6"
     >
       {/* hidden inputs */}
@@ -99,9 +98,6 @@ export function WikiEditForm({
           rows={3}
         />
       </div>
-
-      {/* 에러 메시지 */}
-      {state.error && <p className="text-sm text-destructive">{state.error}</p>}
 
       {/* 동의 체크박스 + 저장/취소 */}
       <div className="flex items-center justify-between border-t pt-4">

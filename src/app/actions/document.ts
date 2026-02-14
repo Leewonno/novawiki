@@ -1,7 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { tanslatePrimaryTitle } from "@/lib/utils/common";
+import { decomposeKorean, tanslatePrimaryTitle } from "@/lib/utils/common";
 
 export interface DocumentState {
   error: string | null;
@@ -11,7 +12,7 @@ export interface DocumentState {
 
 /** 문서 생성/수정 */
 export async function writeDocument(
-  prevState: DocumentState,
+  _: DocumentState,
   formData: FormData,
 ): Promise<DocumentState> {
   const supabase = await createClient();
@@ -51,43 +52,39 @@ export async function writeDocument(
   }
 
   const primaryTitle = tanslatePrimaryTitle(title);
+  const letters = decomposeKorean(primaryTitle);
 
   if (isNew) {
-    // 새 문서 생성
-    // 기존 문서 존재 여부 확인
-    const { data: existingDoc } = await supabase
-      .from("document")
-      .select("id")
-      .eq("primaryTitle", primaryTitle)
-      .maybeSingle();
-
-    if (existingDoc) {
-      return { error: "이미 존재하는 문서입니다.", isExisting: true };
-    }
-
-    const { error: insertError } = await supabase.from("document").insert({
-      title,
-      primaryTitle,
-      content,
-      comment,
-      user_id: user.id,
+    const { data, error } = await supabase.rpc("create_document_with_history", {
+      p_title: title,
+      p_primary_title: primaryTitle,
+      p_content: content,
+      p_comment: comment,
+      p_letters: letters,
+      p_user_id: user.id,
     });
 
-    if (insertError) {
-      return { error: "문서 생성에 실패했습니다." };
+    if (error) {
+      return { error: error.message };
     }
+
+    if (!data.success) {
+      // 이미 존재하는 문서
+      if (data.errorCode === "DOCUMENT_ALREADY_EXISTS") {
+        return { error: data.error, isExisting: true };
+      }
+      return { error: data.error };
+    }
+    return { success: true, error: null };
   } else {
     // 기존 문서 수정 및 history 테이블 생성
-    const { data, error: rpcError } = await supabase.rpc(
-      "update_document_with_history",
-      {
-        p_primary_title: primaryTitle,
-        p_content: content,
-        p_comment: comment,
-        p_user_id: user.id,
-      },
-    );
-    if (rpcError) {
+    const { error } = await supabase.rpc("update_document_with_history", {
+      p_primary_title: primaryTitle,
+      p_content: content,
+      p_comment: comment,
+      p_user_id: user.id,
+    });
+    if (error) {
       return { error: "문서 수정에 실패했습니다." };
     }
   }

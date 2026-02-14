@@ -1,29 +1,16 @@
 import Link from "next/link";
 import { Button } from "@/components";
+import type { ApiResponse, HistoryType } from "@/entities";
 import { WikiDiffer } from "@/features";
+import { fetcher } from "@/lib/utils/fetcher";
 
-const mockVersions: Record<number, string> = {
-  30: `## 개요
-
-위키는 여러 사람이 함께 문서를 작성하는 시스템이다.
-
-## 특징
-
-- 누구나 편집 가능
-- 버전 관리 지원`,
-  50: `## 개요
-
-위키는 여러 사용자가 함께 문서를 수정하고 관리하는 협업 시스템이다.
-
-## 특징
-
-- 누구나 편집 가능
-- 버전 관리 지원
-- 변경 이력 추적
-
-## 제목
-`,
-};
+async function getCompare(
+  prev: number,
+  next: number,
+  id: string,
+): Promise<ApiResponse<HistoryType[]>> {
+  return fetcher(`/api/document/compare?prev=${prev}&next=${next}&id=${id}`);
+}
 
 export default async function Compare({
   params,
@@ -33,30 +20,37 @@ export default async function Compare({
   searchParams: Promise<{ prev?: string; next?: string }>;
 }) {
   const { id } = await params;
-  const { prev = "30", next = "50" } = await searchParams;
+  const { prev, next } = await searchParams;
 
-  // TODO : id와 버전으로 문서 데이터 fetch
-  const documentTitle = "React";
-  // TODO : Prev가 Next보다 크다면 서로 값 변경 필요
-  const oldText = mockVersions[Number(prev)] || mockVersions[30];
-  const newText = mockVersions[Number(next)] || mockVersions[50];
+  if (!prev || !next) {
+    return <div>잘못된 접근 방법입니다.</div>;
+  }
+
+  const title = decodeURI(id);
+  const { data, errorCode } = await getCompare(Number(prev), Number(next), id);
+
+  if (errorCode) {
+    return <div>오류가 발생했습니다.</div>;
+  }
+
+  if (!data) {
+    return <div>존재하지 않는 문서입니다.</div>;
+  }
 
   return (
     <div className="w-full max-w-300 mx-auto flex flex-col gap-6">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">
-          &apos;{documentTitle}&apos; 문서 비교
-        </h1>
-        <Link href={`/d/${id}`}>
+        <h1 className="text-2xl font-bold">&apos;{title}&apos; 문서 비교</h1>
+        <Link href={`/d/${title}`}>
           <Button className="cursor-pointer">최신 문서로</Button>
         </Link>
       </div>
 
       {/* 버전 비교 */}
       <WikiDiffer
-        oldText={oldText}
-        newText={newText}
+        oldText={data[0].content}
+        newText={data[1].content}
         oldVersion={`v${prev}`}
         newVersion={`v${next}`}
       />

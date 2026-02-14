@@ -1,12 +1,11 @@
 import Link from "next/link";
-import type { DocumentType } from "@/entities";
+import type { ApiResponse, DocumentType } from "@/entities";
 import { DocumentControls, WikiViewer } from "@/features";
 import { parseHeads } from "@/lib/utils/common";
 import { fetcher } from "@/lib/utils/fetcher";
 
-async function getDoc(id: string): Promise<DocumentType> {
-  const data = await fetcher(`/api/document/doc?id=${id}`);
-  return data;
+async function getDoc(id: string): Promise<ApiResponse<DocumentType>> {
+  return fetcher(`/api/document/doc?id=${id}`);
 }
 
 export default async function Document({
@@ -16,24 +15,24 @@ export default async function Document({
 }) {
   const { id } = await params;
   // 문서 가져오기
-  const doc = await getDoc(id);
+  const { data } = await getDoc(id);
 
-  if (!doc) {
+  if (!data) {
     return <div>존재하지 않는 문서입니다.</div>;
   }
   // 목차 파싱
-  const indexList = parseHeads(doc.content);
+  const indexList = parseHeads(data.content);
 
   return (
     <div className="w-full max-w-300 mx-auto flex flex-col gap-6 relative">
       {/* 제목, 문서정보, 버튼박스 */}
-      <DocumentControls doc={doc} />
+      <DocumentControls doc={data} />
 
       {/* 문서 내용 + 목차 */}
       <div className="flex gap-6">
         {/* 본문 영역 */}
         <div className="flex-1 min-w-0">
-          <WikiViewer content={doc.content} />
+          <WikiViewer content={data.content} />
         </div>
 
         {/* 목차 사이드바 */}

@@ -18,8 +18,15 @@ export async function GET(req: Request) {
 
   const { data: titleData, error: titleError } = await titleQuery;
   if (titleError) {
-    console.log("DB 조회 에러", titleError);
-    return Response.json(null, { status: 401 });
+    return Response.json(
+      {
+        success: false,
+        data: null,
+        errorCode: "DB_ERROR",
+        message: "데이터 조회 중 오류가 발생했습니다.",
+      },
+      { status: 500 },
+    );
   }
 
   // 내용
@@ -34,10 +41,23 @@ export async function GET(req: Request) {
 
   const { data: contentData, error: contentError } = await contentQuery;
   if (contentError) {
-    console.log("DB 조회 에러", contentError);
-    return Response.json(null, { status: 401 });
+    return Response.json(
+      {
+        success: false,
+        data: null,
+        errorCode: "DB_ERROR",
+        message: "데이터 조회 중 오류가 발생했습니다.",
+      },
+      { status: 500 },
+    );
   }
 
   const result = [titleData, contentData];
-  return Response.json(result);
+
+  return Response.json({
+    success: true,
+    data: result,
+    errorCode: null,
+    message: null,
+  });
 }
