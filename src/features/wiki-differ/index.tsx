@@ -1,15 +1,9 @@
 "use client";
 
 import { diffLines } from "diff";
-import type React from "react";
 import { useMemo } from "react";
 import { WordHighlight } from "./components/WordHighlight";
-
-type DiffLine = {
-  type: "added" | "removed" | "normal" | "modified";
-  content: string;
-  highlightedContent?: React.ReactNode;
-};
+import { DiffLine } from "./model/types";
 
 export function WikiDiffer({
   oldText,

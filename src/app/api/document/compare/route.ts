@@ -49,7 +49,7 @@ export async function GET(req: Request) {
     );
   }
 
-  // 버전 내림차순 조회 -> 0번 인덱스(next) / 1번 인덱스(prev)
+  // 버전 내림차순 조회 -> 1번 인덱스(next) / 0번 인덱스(prev)
   // 데이터가 1개 밖에 없다면, 같은 버전을 비교했다고 간주
   // 데이터가 0개면 없는 버전을 조회했다고 간주
 
@@ -79,7 +79,7 @@ export async function GET(req: Request) {
 
   return Response.json({
     success: true,
-    data: [historyData[0], historyData[1]],
+    data: [historyData[1], historyData[0]],
     errorCode: null,
     message: null,
   });

@@ -51,22 +51,22 @@ export default async function Compare({
       <WikiDiffer
         oldText={data[0].content}
         newText={data[1].content}
-        oldVersion={`v${prev}`}
-        newVersion={`v${next}`}
+        oldVersion={`v${data[0].version}`}
+        newVersion={`v${data[1].version}`}
       />
       {/* 버전별 액션 버튼 */}
       <div className="flex gap-4">
         <div className="flex-1">
           <Link href={`/d/${id}?v=${prev}`}>
             <Button variant="outline" className="w-full cursor-pointer">
-              v{prev} 버전 보기
+              v{data[0].version} 버전 보기
             </Button>
           </Link>
         </div>
         <div className="flex-1">
           <Link href={`/d/${id}?v=${next}`}>
             <Button variant="outline" className="w-full cursor-pointer">
-              v{next} 버전 보기
+              v{data[1].version} 버전 보기
             </Button>
           </Link>
         </div>
