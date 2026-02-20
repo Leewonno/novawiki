@@ -1,7 +1,8 @@
 // Login
 
 // Document
-export { DocumentControls } from "./document-controls";
+export { DocumentHeader } from "./document-header";
+export { DocumentVersionBanner } from "./document-version-banner";
 // History
 export { HistoryList } from "./history-list";
 export { HomeCard } from "./home-card";

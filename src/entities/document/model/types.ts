@@ -12,4 +12,7 @@ export type DocumentType = {
   user?: {
     nick: string;
   };
+  document?: {
+    title: string;
+  }
 };

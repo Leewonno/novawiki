@@ -45,7 +45,7 @@ export function HistoryList({ title, history }: HistoryListProps) {
       {/* 이력 테이블 */}
       <div className="rounded-lg border overflow-hidden">
         {/* 테이블 헤더 */}
-        <div className="grid grid-cols-[60px_60px_60px_120px_120px_100px_1fr] gap-4 px-4 py-3 bg-muted/50 text-sm font-medium">
+        <div className="grid grid-cols-[60px_60px_60px_120px_120px_100px_1fr_80px] gap-4 px-4 py-3 bg-muted/50 text-sm font-medium">
           <div className="text-center">이전</div>
           <div className="text-center">현재</div>
           <div className="text-center">버전</div>
@@ -53,6 +53,7 @@ export function HistoryList({ title, history }: HistoryListProps) {
           <div className="text-center">사용자</div>
           <div className="text-center">작업내용</div>
           <div className="text-center">코멘트</div>
+          <div className="text-center">보기</div>
         </div>
 
         {/* 이력 목록 */}
@@ -60,7 +61,7 @@ export function HistoryList({ title, history }: HistoryListProps) {
           {history.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-[60px_60px_60px_120px_120px_100px_1fr] gap-4 px-4 py-3 text-sm hover:bg-muted/30 transition-colors"
+              className="grid grid-cols-[60px_60px_60px_120px_120px_100px_1fr_80px] gap-4 px-4 py-3 text-sm hover:bg-muted/30 transition-colors"
             >
               <div className="flex justify-center">
                 <input
@@ -90,6 +91,13 @@ export function HistoryList({ title, history }: HistoryListProps) {
               </div>
               <div className="text-muted-foreground text-center">
                 {item.comment}
+              </div>
+              <div className="flex justify-center">
+                <Link href={`/d/${title}?v=${item.version}`}>
+                  <Button size="xs" className="cursor-pointer">
+                    보기
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}
