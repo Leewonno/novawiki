@@ -1,4 +1,4 @@
-import { DocumentType } from "@/entities";
+import type { DocumentType } from "@/entities";
 import { WikiEditForm } from "@/features";
 import { fetcher } from "@/lib/utils/fetcher";
 

@@ -42,7 +42,7 @@ export const getRelativeTime = (dateString: string): string => {
 /** 미리보기 컨텐츠 추출용 함수 */
 export const extractContentPreview = (
   markdown: string,
-  maxLength: number = 200
+  maxLength: number = 200,
 ): string => {
   if (!markdown) return "";
   const lines = markdown.split("\n");

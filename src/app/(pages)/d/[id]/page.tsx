@@ -1,8 +1,8 @@
-import { DocumentType } from "@/entities";
+import Link from "next/link";
+import type { DocumentType } from "@/entities";
 import { DocumentControls, WikiViewer } from "@/features";
 import { parseHeads } from "@/lib/utils/common";
 import { fetcher } from "@/lib/utils/fetcher";
-import Link from "next/link";
 
 async function getDoc(id: string): Promise<DocumentType> {
   const data = await fetcher(`/api/document/doc?id=${id}`);
