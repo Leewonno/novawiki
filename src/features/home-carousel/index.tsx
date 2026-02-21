@@ -24,6 +24,7 @@ export function HomeCarousel() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
+                <title>NovaWiki</title>
                 <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
                 <path d="M8 7h6" />
                 <path d="M8 11h8" />
@@ -56,6 +57,7 @@ export function HomeCarousel() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
+                <title>Contribute</title>
                 <path d="M12 20h9" />
                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
               </svg>
@@ -87,6 +89,7 @@ export function HomeCarousel() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
+                <title>Community</title>
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
                 <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -120,6 +123,7 @@ export function HomeCarousel() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
+                <title>Explore</title>
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.3-4.3" />
               </svg>
@@ -151,6 +155,7 @@ export function HomeCarousel() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
+                <title>New</title>
                 <path d="M12 2v4" />
                 <path d="m6.34 6.34 2.83 2.83" />
                 <path d="M2 12h4" />
