@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { writeDocument } from "@/app/actions/document";
@@ -20,6 +21,7 @@ export function WikiEditForm({
   initialContent,
   isNew,
 }: WikiEditFormProps) {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
@@ -44,6 +46,7 @@ export function WikiEditForm({
       );
       // 성공
       if (success) {
+        queryClient.invalidateQueries({ queryKey: ["document", title, null] });
         router.push(`/d/${title}`);
         return;
       }
