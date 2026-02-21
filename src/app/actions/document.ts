@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { decomposeKorean, tanslatePrimaryTitle } from "@/lib/utils/common";
 
@@ -12,7 +11,6 @@ export interface DocumentState {
 
 /** 문서 생성/수정 */
 export async function writeDocument(
-  _: DocumentState,
   formData: FormData,
 ): Promise<DocumentState> {
   const supabase = await createClient();
