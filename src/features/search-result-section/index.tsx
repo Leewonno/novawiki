@@ -1,18 +1,13 @@
 "use client";
 
-import { Button } from "@/components";
-import { SearchResultCard } from "../search-result-card";
 import Link from "next/link";
-
-type SearchDoc = {
-  id: string;
-  title: string;
-  summary: string;
-};
+import { Button } from "@/components";
+import type { DocumentType } from "@/entities";
+import { SearchResultCard } from "../search-result-card";
 
 type SearchResultSectionProps = {
   title: string;
-  results: SearchDoc[];
+  results: DocumentType[];
   hasMore?: boolean;
   onLoadMore?: () => void;
   searchQuery: string;

@@ -1,18 +1,11 @@
+import type { DocumentType } from "@/entities";
 import { WikiEditForm } from "@/features";
+import { fetcher } from "@/lib/utils/fetcher";
 
-const mockDocument = {
-  title: "React",
-  content: `## 개요
-
-React는 사용자 인터페이스를 구축하기 위한 JavaScript 라이브러리로, Meta(구 Facebook)에서 개발하였다.
-
-## 특징
-
-- 컴포넌트 기반 아키텍처
-- Virtual DOM
-- 단방향 데이터 흐름
-`,
-};
+async function getDoc(id: string): Promise<DocumentType> {
+  const data = await fetcher(`/api/document/doc?id=${id}`);
+  return data;
+}
 
 export default async function Edit({
   params,
@@ -20,18 +13,17 @@ export default async function Edit({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const isNew = id === "new";
+  // 문서 가져오기
+  const doc = await getDoc(id);
+
+  // 새 문서로 작성할지 확인
+  const isNew = id === "new" || !doc;
 
   // TODO: id로 문서 데이터 fetch (신규면 빈 값)
-  const title = isNew ? "" : mockDocument.title;
-  const content = isNew ? "" : mockDocument.content;
+  const title = isNew ? "" : doc.title;
+  const content = isNew ? "" : doc.content;
 
   return (
-    <WikiEditForm
-      documentId={id}
-      initialTitle={title}
-      initialContent={content}
-      isNew={isNew}
-    />
+    <WikiEditForm initialTitle={title} initialContent={content} isNew={isNew} />
   );
 }

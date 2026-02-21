@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { login } from "@/app/actions/auth";
 import { Button, Card } from "@/components";
 import {
@@ -9,8 +11,6 @@ import {
   FieldLabel,
 } from "@/components/ui/shadcn/field";
 import { Input } from "@/components/ui/shadcn/input";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 
 export function LoginForm() {
@@ -45,10 +45,10 @@ export function LoginForm() {
     }
     if (result.success && result.id) {
       setUser({ id: result.id });
-      router.push('/');
+      router.push("/");
     }
-  }
-  
+  };
+
   return (
     <Card className="p-7 pt-10 pb-10">
       <form action={handleAction} className="w-100">
@@ -75,9 +75,7 @@ export function LoginForm() {
               onChange={handlePasswordChange}
             />
           </Field>
-          <FieldDescription className="text-red-500">
-            {error}
-          </FieldDescription>
+          <FieldDescription className="text-red-500">{error}</FieldDescription>
           <Button type="submit" className="w-full cursor-pointer">
             로그인
           </Button>
