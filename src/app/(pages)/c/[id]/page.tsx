@@ -4,14 +4,12 @@ import type { ApiResponse, HistoryType } from "@/entities";
 import { WikiDiffer } from "@/features";
 import { fetcher } from "@/lib/utils/fetcher";
 
-async function getCompare(
-  prev: number,
-  next: number,
-  id: string,
-): Promise<ApiResponse<HistoryType[]>> {
-  return fetcher(`/api/document/compare?prev=${prev}&next=${next}&id=${id}`);
+async function getCompare(prev: number, next: number, id: string) {
+  const res: ApiResponse<HistoryType[]> = await fetcher(
+    `/api/document/compare?prev=${prev}&next=${next}&id=${id}`,
+  );
 }
-
+// : Promise<ApiResponse<HistoryType[]>  return
 export default async function Compare({
   params,
   searchParams,

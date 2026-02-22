@@ -2,10 +2,12 @@
 
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import type { ApiResponse, DocumentType } from "@/entities";
 import { DocumentHeader, DocumentVersionBanner, WikiViewer } from "@/features";
 import { parseHeads } from "@/lib/utils/common";
-import { fetcher } from "@/lib/utils/fetcher";
+import {
+  documentQueryOptions,
+  documentVersionQueryOptions,
+} from "@/lib/utils/query";
 
 type DocumentViewProps = {
   id: string;
@@ -15,13 +17,9 @@ type DocumentViewProps = {
 export function DocumentView({ id, v }: DocumentViewProps) {
   const isOld = !!v;
 
-  const { data: response } = useQuery<ApiResponse<DocumentType>>({
-    queryKey: ["document", id, v ?? null],
-    queryFn: () =>
-      isOld
-        ? fetcher(`/api/document/version?id=${id}&v=${v}`)
-        : fetcher(`/api/document/doc?id=${id}`),
-  });
+  const { data: response } = useQuery(
+    isOld ? documentVersionQueryOptions(id, v) : documentQueryOptions(id),
+  );
 
   const data = response?.data;
 

@@ -3,20 +3,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import type { ApiResponse, DocumentType } from "@/entities";
-import { fetcher } from "@/lib/utils/fetcher";
+import {
+  documentQueryOptions,
+  documentVersionQueryOptions,
+} from "@/lib/utils/query";
 import { DocumentView } from "@/widgets";
-
-async function getDoc(id: string): Promise<ApiResponse<DocumentType>> {
-  return fetcher(`/api/document/doc?id=${id}`, 0);
-}
-
-async function getHistoryDoc(
-  id: string,
-  v: string,
-): Promise<ApiResponse<DocumentType>> {
-  return fetcher(`/api/document/version?id=${id}&v=${v}`, 0);
-}
 
 export default async function Document({
   params,
@@ -30,10 +21,9 @@ export default async function Document({
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["document", id, v ?? null],
-    queryFn: () => (v ? getHistoryDoc(id, v) : getDoc(id)),
-  });
+  await queryClient.prefetchQuery(
+    v != null ? documentVersionQueryOptions(id, v) : documentQueryOptions(id),
+  );
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
