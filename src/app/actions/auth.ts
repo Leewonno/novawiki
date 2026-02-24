@@ -35,21 +35,21 @@ export async function login(
 }
 
 /** 회원가입 */
-export async function signUp(
-  prevState: AuthState,
-  formData: FormData,
-): Promise<AuthState> {
+export async function signUp(formData: FormData): Promise<AuthState> {
   // FormData
   const userid = formData.get("userid") as string;
   const password = formData.get("password") as string;
   const nick = formData.get("nick") as string;
 
   // auth 회원가입
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const email = `${userid}@novawiki.com`;
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: { userid: userid, nick: nick },
+    },
   });
 
   if (error) {
@@ -63,27 +63,27 @@ export async function signUp(
   }
 
   // DB에 저장할 데이터
-  const userData = {
-    userid,
-    email,
-    nick,
-    auth_id: data.user?.id,
-  };
+  // const userData = {
+  //   userid,
+  //   email,
+  //   nick,
+  //   auth_id: data.user?.id,
+  // };
 
-  const { error: dbError } = await supabase.from("user").insert(userData);
+  // const { error: dbError } = await supabase.from("user").insert(userData);
 
-  if (dbError) {
-    // DB 저장 실패 시 auth 유저 롤백
-    if (data.user) {
-      const adminClient = createAdminClient();
-      await adminClient.auth.admin.deleteUser(data.user.id);
-    }
-    if (dbError.code === "23505") {
-      return { error: "사용중인 닉네임입니다." };
-    } else {
-      return { error: "회원가입에 실패했습니다." };
-    }
-  }
+  // if (dbError) {
+  //   // DB 저장 실패 시 auth 유저 롤백
+  //   if (data.user) {
+  //     const adminClient = createAdminClient();
+  //     await adminClient.auth.admin.deleteUser(data.user.id);
+  //   }
+  //   if (dbError.code === "23505") {
+  //     return { error: "사용중인 닉네임입니다." };
+  //   } else {
+  //     return { error: "회원가입에 실패했습니다." };
+  //   }
+  // }
 
   return { error: null, success: true, id: data.user?.id };
 }
