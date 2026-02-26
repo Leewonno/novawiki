@@ -85,7 +85,7 @@ export function HistoryList({ title, history }: HistoryListProps) {
               <div className="text-muted-foreground text-center">
                 {getRelativeTime(item.created_at)}
               </div>
-              <div className="text-center">{item.user?.nick}</div>
+              <div className="text-center">{item.profile?.nick}</div>
               <div className="text-muted-foreground text-center">
                 {/* {item.action} */}
               </div>

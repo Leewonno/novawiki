@@ -22,7 +22,7 @@ export function HomeCard({ index, doc }: HomeCardProps) {
           {extractContentPreview(doc.content)}
         </p>
         <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-          <span>{doc.user?.nick}</span>
+          <span>{doc.profile?.nick}</span>
           <span>·</span>
           <span>{getRelativeTime(doc.updated_at)}</span>
         </div>

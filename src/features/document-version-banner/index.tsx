@@ -15,9 +15,9 @@ export function DocumentVersionBanner({ doc, id }: DocumentVersionBannerProps) {
         <span className="text-yellow-600 dark:text-yellow-400">
           {getRelativeTime(doc.created_at)}
         </span>
-        {doc.user?.nick && (
+        {doc.profile?.nick && (
           <span className="text-yellow-600 dark:text-yellow-400">
-            편집자: {doc.user.nick}
+            편집자: {doc.profile.nick}
           </span>
         )}
       </div>

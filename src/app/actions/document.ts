@@ -18,18 +18,8 @@ export async function writeDocument(
 
   // 현재 사용자 확인
   const {
-    data: { user: authUser },
+    data: { user },
   } = await supabase.auth.getUser();
-
-  if (!authUser) {
-    return { error: "로그인이 필요합니다." };
-  }
-
-  const { data: user } = await supabase
-    .from("user")
-    .select("id")
-    .eq("auth_id", authUser.id)
-    .maybeSingle();
 
   if (!user) {
     return { error: "로그인이 필요합니다." };
@@ -60,7 +50,6 @@ export async function writeDocument(
       p_content: content,
       p_comment: comment,
       p_letters: letters,
-      p_user_id: user.id,
     });
 
     if (error) {
@@ -81,7 +70,6 @@ export async function writeDocument(
       p_primary_title: primaryTitle,
       p_content: content,
       p_comment: comment,
-      p_user_id: user.id,
     });
     if (error) {
       return { error: "문서 수정에 실패했습니다." };
