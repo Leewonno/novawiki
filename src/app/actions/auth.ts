@@ -50,7 +50,6 @@ export async function signUp(formData: FormData): Promise<AuthState> {
   });
 
   if (error) {
-    console.log(error);
     if (error.code === "over_email_send_rate_limit") {
       return { error: "요청 횟수가 너무 많습니다. 잠시 후 다시 시도해주세요." };
     } else if (error.code === "user_already_exists") {
