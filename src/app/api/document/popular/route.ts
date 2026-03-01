@@ -6,8 +6,7 @@ export async function GET() {
     .from("document")
     .select(
       `*,
-      user:document_user_id_fkey (
-      email,
+      profile:document_profile_id_fkey (
       nick
     )
   `,
