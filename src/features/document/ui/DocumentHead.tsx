@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { deleteDocument } from "@/app/actions/document";
 import { Button } from "@/components";
 import type { DocumentType } from "@/entities";
 import { formatDateTime, simpleMessageToast } from "@/lib/utils/common";
@@ -24,12 +25,22 @@ export function DocumentHead({ doc, isOld }: DocumentHeadProps) {
     simpleMessageToast("수정 불가", "로그인한 유저만 수정할 수 있습니다.");
   };
 
-  const handleClickDelete = (id: string) => {
-    if (user) {
-      router.push(`/e/${id}`);
+  const handleClickDelete = async (id: string) => {
+    if (!user) {
+      simpleMessageToast("삭제 불가", "로그인한 유저만 삭제할 수 있습니다.");
       return;
     }
-    simpleMessageToast("삭제 불가", "로그인한 유저만 수정할 수 있습니다.");
+
+    if (!window.confirm(`'${id}' 문서를 삭제하시겠습니까?`)) return;
+
+    const { error } = await deleteDocument(id);
+
+    if (error) {
+      simpleMessageToast("삭제 실패", error);
+      return;
+    }
+
+    router.push("/");
   };
 
   return (
