@@ -3,8 +3,8 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import { documentQueryOptions } from "@/entities";
 import { EditForm } from "@/features";
-import { documentQueryOptions } from "@/lib/utils/query";
 
 export default async function Edit({
   params,
