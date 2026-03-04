@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components";
-import type { DocumentType } from "@/entities";
+import type { DocumentType } from "@/types";
 import { SearchResultCard } from "./SearchResultCard";
 import { SearchResultSection } from "./SearchResultSection";
 

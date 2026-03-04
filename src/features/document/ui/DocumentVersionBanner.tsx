@@ -1,6 +1,6 @@
 import Link from "next/link";
-import type { DocumentType } from "@/entities";
 import { getRelativeTime } from "@/lib/utils/common";
+import type { DocumentType } from "@/types";
 
 type DocumentVersionBannerProps = {
   doc: DocumentType;

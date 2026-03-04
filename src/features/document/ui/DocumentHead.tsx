@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { deleteDocument } from "@/app/actions/document";
 import { Button } from "@/components";
-import type { DocumentType } from "@/entities";
 import { formatDateTime, simpleMessageToast } from "@/lib/utils/common";
 import { useUserStore } from "@/store/useUserStore";
+import type { DocumentType } from "@/types";
 
 type DocumentHeadProps = {
   doc: DocumentType;

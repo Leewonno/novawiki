@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Button } from "@/components";
-import type { DocumentType } from "@/entities";
 import { extractContentPreview } from "@/lib/utils/common";
+import type { DocumentType } from "@/types";
 
 type SearchResultCardProps = {
   doc: DocumentType;
