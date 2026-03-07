@@ -27,8 +27,7 @@
   }
 
   .md-toolbar-btn {
-    @apply w-7 h-7 flex items-center justify-center rounded text-gray-600
-           hover:bg-gray-200 hover:text-gray-900 cursor-pointer transition-colors;
+    @apply w-7 h-7 flex items-center justify-center rounded text-gray-600 hover:bg-gray-200 hover:text-gray-900 cursor-pointer transition-colors;
 
     svg {
       @apply w-4 h-4;

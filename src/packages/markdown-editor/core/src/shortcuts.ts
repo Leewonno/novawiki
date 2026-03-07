@@ -1,11 +1,11 @@
-type FormatAction = (textarea: HTMLTextAreaElement) => void;
+// type FormatAction = (textarea: HTMLTextAreaElement) => void;
 
 // ─── 텍스트 삽입 유틸 ─────────────────────────────────────────────────────────
 
 function insertAround(
   textarea: HTMLTextAreaElement,
   before: string,
-  after: string
+  after: string,
 ): void {
   const { selectionStart: start, selectionEnd: end, value } = textarea;
   const selected = value.slice(start, end);
@@ -23,7 +23,8 @@ function insertAround(
     return;
   }
 
-  const next = value.slice(0, start) + before + selected + after + value.slice(end);
+  const next =
+    value.slice(0, start) + before + selected + after + value.slice(end);
   setNativeValue(textarea, next);
   setSelection(textarea, start + before.length, end + before.length);
 }
@@ -31,7 +32,7 @@ function insertAround(
 function insertLine(
   textarea: HTMLTextAreaElement,
   prefix: string,
-  placeholder: string
+  placeholder: string,
 ): void {
   const { selectionStart: start, value } = textarea;
   const lineStart = value.lastIndexOf("\n", start - 1) + 1;
@@ -41,7 +42,10 @@ function insertLine(
 
   // 이미 해당 prefix가 있으면 제거
   if (currentLine.startsWith(prefix)) {
-    const next = value.slice(0, lineStart) + currentLine.slice(prefix.length) + value.slice(end);
+    const next =
+      value.slice(0, lineStart) +
+      currentLine.slice(prefix.length) +
+      value.slice(end);
     setNativeValue(textarea, next);
     setSelection(textarea, start - prefix.length, start - prefix.length);
     return;
@@ -54,6 +58,7 @@ function insertLine(
   setSelection(textarea, newCursor, newCursor);
 }
 
+// 라인 복제
 function duplicateLine(textarea: HTMLTextAreaElement): void {
   const { selectionStart: start, value } = textarea;
   const lineStart = value.lastIndexOf("\n", start - 1) + 1;
@@ -81,9 +86,15 @@ function handleTab(textarea: HTMLTextAreaElement, shift: boolean): void {
       // 내어쓰기: 앞 공백 2칸 제거
       const spaceMatch = /^( {2}|\t)/.exec(value.slice(lineStart));
       if (spaceMatch) {
-        const next = value.slice(0, lineStart) + value.slice(lineStart + spaceMatch[0].length);
+        const next =
+          value.slice(0, lineStart) +
+          value.slice(lineStart + spaceMatch[0].length);
         setNativeValue(textarea, next);
-        setSelection(textarea, start - spaceMatch[0].length, start - spaceMatch[0].length);
+        setSelection(
+          textarea,
+          start - spaceMatch[0].length,
+          start - spaceMatch[0].length,
+        );
       }
     } else {
       // 들여쓰기: 앞에 공백 2칸 추가
@@ -120,7 +131,11 @@ function handleEnter(textarea: HTMLTextAreaElement): boolean {
       const insertion = `\n${indent}${bullet} `;
       const next = value.slice(0, start) + insertion + value.slice(start);
       setNativeValue(textarea, next);
-      setSelection(textarea, start + insertion.length, start + insertion.length);
+      setSelection(
+        textarea,
+        start + insertion.length,
+        start + insertion.length,
+      );
     }
     return true;
   }
@@ -140,7 +155,11 @@ function handleEnter(textarea: HTMLTextAreaElement): boolean {
       const insertion = `\n${indent}${nextNum}. `;
       const next = value.slice(0, start) + insertion + value.slice(start);
       setNativeValue(textarea, next);
-      setSelection(textarea, start + insertion.length, start + insertion.length);
+      setSelection(
+        textarea,
+        start + insertion.length,
+        start + insertion.length,
+      );
     }
     return true;
   }
@@ -153,7 +172,7 @@ function handleEnter(textarea: HTMLTextAreaElement): boolean {
 function setNativeValue(el: HTMLTextAreaElement, value: string): void {
   const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
     HTMLTextAreaElement.prototype,
-    "value"
+    "value",
   )?.set;
   nativeInputValueSetter?.call(el, value);
   el.dispatchEvent(new Event("input", { bubbles: true }));
@@ -162,7 +181,7 @@ function setNativeValue(el: HTMLTextAreaElement, value: string): void {
 function setSelection(
   el: HTMLTextAreaElement,
   start: number,
-  end: number
+  end: number,
 ): void {
   el.setSelectionRange(start, end);
   el.focus();
@@ -174,11 +193,15 @@ export interface ShortcutHandlerOptions {
   onSave?: (value: string) => void;
 }
 
+// 단축키
 export function registerShortcuts(
   textarea: HTMLTextAreaElement,
-  options: ShortcutHandlerOptions
+  options: ShortcutHandlerOptions,
 ): () => void {
   const handler = (e: KeyboardEvent): void => {
+    // 한글 입력 후 엔터, 탭 등 키보드 입력 시 두 번 실행되는 문제 해결
+    if (e.isComposing) return;
+
     const ctrl = e.ctrlKey || e.metaKey;
 
     // Enter: 목록 자동 생성

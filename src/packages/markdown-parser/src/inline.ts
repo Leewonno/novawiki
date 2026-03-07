@@ -21,7 +21,7 @@ const EMPHASIS_RE = /^(\*|_)(?!\s)([\s\S]*?)(?<!\s)\1/;
 
 function parseInlineTokens(
   src: string,
-  plugins: ParserPlugin[]
+  plugins: ParserPlugin[],
 ): PhrasingContent[] {
   const tokens: PhrasingContent[] = [];
   let remaining = src;
@@ -52,7 +52,10 @@ function parseInlineTokens(
     // 2. Code span
     m = CODE_SPAN_RE.exec(remaining);
     if (m) {
-      tokens.push({ type: "inlineCode", value: (m[2] ?? "").trim() } satisfies InlineCode);
+      tokens.push({
+        type: "inlineCode",
+        value: (m[2] ?? "").trim(),
+      } satisfies InlineCode);
       remaining = remaining.slice(m[0].length);
       continue;
     }

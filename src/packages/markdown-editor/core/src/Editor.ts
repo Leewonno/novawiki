@@ -1,11 +1,11 @@
-import { createToolbar } from "./Toolbar";
 import { registerShortcuts } from "./shortcuts";
+import { createToolbar } from "./Toolbar";
 import type { MarkdownEditorOptions } from "./types";
 import { Viewer } from "./Viewer";
 
 function debounce<T extends unknown[]>(
   fn: (...args: T) => void,
-  delay: number
+  delay: number,
 ): (...args: T) => void {
   let timer: ReturnType<typeof setTimeout>;
   return (...args: T) => {
@@ -30,7 +30,7 @@ export class MarkdownEditor {
     const textarea = document.createElement("textarea");
     textarea.className =
       "md-textarea w-1/2 h-full resize-none border-r p-3 font-mono text-sm leading-relaxed focus:outline-none";
-    textarea.placeholder = options.placeholder ?? "마크다운을 입력하세요...";
+    textarea.placeholder = options.placeholder ?? "내용을 입력하세요.";
     textarea.value = options.value ?? "";
     this.textarea = textarea;
 
@@ -49,16 +49,16 @@ export class MarkdownEditor {
     this.viewer = new Viewer(
       previewContainer,
       options.plugins ?? [],
-      options.urlFilter
+      options.urlFilter,
     );
 
     // 초기 렌더링
     this.viewer.render(textarea.value);
 
-    // ─── 입력 이벤트 (300ms debounce) ────────────────────────────────────────
+    // ─── 입력 이벤트 (100ms debounce) ────────────────────────────────────────
     const debouncedRender = debounce((value: string) => {
       this.viewer.render(value);
-    }, 300);
+    }, 100);
 
     textarea.addEventListener("input", () => {
       options.onChange?.(textarea.value);

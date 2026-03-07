@@ -149,7 +149,7 @@ export interface ParserPlugin {
   block?: (
     line: string,
     lines: string[],
-    index: number
+    index: number,
   ) => BlockPluginResult | null;
   /** 인라인 파싱 훅: 현재 남은 문자열을 받아 노드와 소비 길이를 반환하거나 null */
   inline?: (src: string) => InlinePluginResult | null;

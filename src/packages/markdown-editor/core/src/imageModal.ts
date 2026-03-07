@@ -22,7 +22,7 @@ export function openImageModal(options: ImageModalOptions): void {
   tabBar.className = "flex border-b";
 
   const tabUrl = createTab("URL 입력", true);
-  const tabFile = createTab("파일 업로드", false, !uploadImage);
+  const tabFile = createTab("업로드", false, !uploadImage);
   tabBar.appendChild(tabUrl);
   tabBar.appendChild(tabFile);
 
@@ -78,7 +78,11 @@ export function openImageModal(options: ImageModalOptions): void {
       filePanel.classList.add("hidden");
       tabUrl.classList.add("border-b-2", "border-blue-500", "text-blue-600");
       tabUrl.classList.remove("text-gray-500");
-      tabFile.classList.remove("border-b-2", "border-blue-500", "text-blue-600");
+      tabFile.classList.remove(
+        "border-b-2",
+        "border-blue-500",
+        "text-blue-600",
+      );
       tabFile.classList.add("text-gray-500");
     } else {
       filePanel.classList.remove("hidden");
@@ -167,16 +171,14 @@ export function openImageModal(options: ImageModalOptions): void {
 function createTab(
   label: string,
   active: boolean,
-  disabled = false
+  disabled = false,
 ): HTMLButtonElement {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.textContent = label;
   btn.className = [
     "px-4 py-2 text-sm font-medium -mb-px",
-    active
-      ? "border-b-2 border-blue-500 text-blue-600"
-      : "text-gray-500",
+    active ? "border-b-2 border-blue-500 text-blue-600" : "text-gray-500",
     disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer",
   ].join(" ");
   if (disabled) btn.disabled = true;

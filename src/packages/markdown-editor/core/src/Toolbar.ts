@@ -25,46 +25,62 @@ const ICONS = {
   hr: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="12" x2="22" y2="12"/></svg>`,
 };
 
-function buildButtons(
-  options: MarkdownEditorOptions
-): ToolbarButton[] {
+function buildButtons(options: MarkdownEditorOptions): ToolbarButton[] {
   return [
     {
-      label: "H1", title: "제목 1", icon: ICONS.h1,
+      label: "H1",
+      title: "제목 1",
+      icon: ICONS.h1,
       action: (ta) => insertLine(ta, "# ", "제목"),
     },
     {
-      label: "H2", title: "제목 2", icon: ICONS.h2,
+      label: "H2",
+      title: "제목 2",
+      icon: ICONS.h2,
       action: (ta) => insertLine(ta, "## ", "제목"),
     },
     {
-      label: "H3", title: "제목 3", icon: ICONS.h3,
+      label: "H3",
+      title: "제목 3",
+      icon: ICONS.h3,
       action: (ta) => insertLine(ta, "### ", "제목"),
     },
     null as unknown as ToolbarButton, // 구분선
     {
-      label: "B", title: "굵게 (Ctrl+B)", icon: ICONS.bold,
+      label: "B",
+      title: "굵게 (Ctrl+B)",
+      icon: ICONS.bold,
       action: (ta) => insertAround(ta, "**", "**"),
     },
     {
-      label: "I", title: "기울임 (Ctrl+I)", icon: ICONS.italic,
+      label: "I",
+      title: "기울임 (Ctrl+I)",
+      icon: ICONS.italic,
       action: (ta) => insertAround(ta, "*", "*"),
     },
     {
-      label: "Code", title: "인라인 코드", icon: ICONS.code,
+      label: "Code",
+      title: "인라인 코드",
+      icon: ICONS.code,
       action: (ta) => insertAround(ta, "`", "`"),
     },
     {
-      label: "CodeBlock", title: "코드 블록 (Ctrl+Shift+K)", icon: ICONS.codeblock,
+      label: "CodeBlock",
+      title: "코드 블록 (Ctrl+Shift+K)",
+      icon: ICONS.codeblock,
       action: (ta) => insertAround(ta, "```\n", "\n```"),
     },
     null as unknown as ToolbarButton, // 구분선
     {
-      label: "Link", title: "링크 (Ctrl+K)", icon: ICONS.link,
+      label: "Link",
+      title: "링크 (Ctrl+K)",
+      icon: ICONS.link,
       action: (ta) => insertAround(ta, "[", "](url)"),
     },
     {
-      label: "Image", title: "이미지", icon: ICONS.image,
+      label: "Image",
+      title: "이미지",
+      icon: ICONS.image,
       action: (ta) => {
         openImageModal({
           uploadImage: options.uploadImage,
@@ -72,7 +88,8 @@ function buildButtons(
             const { selectionStart: start, value } = ta;
             const next = value.slice(0, start) + markdown + value.slice(start);
             const nativeSetter = Object.getOwnPropertyDescriptor(
-              HTMLTextAreaElement.prototype, "value"
+              HTMLTextAreaElement.prototype,
+              "value",
             )?.set;
             nativeSetter?.call(ta, next);
             ta.dispatchEvent(new Event("input", { bubbles: true }));
@@ -85,25 +102,34 @@ function buildButtons(
     },
     null as unknown as ToolbarButton,
     {
-      label: "UL", title: "순서 없는 목록", icon: ICONS.ul,
+      label: "UL",
+      title: "순서 없는 목록",
+      icon: ICONS.ul,
       action: (ta) => insertLine(ta, "- ", "항목"),
     },
     {
-      label: "OL", title: "순서 있는 목록", icon: ICONS.ol,
+      label: "OL",
+      title: "순서 있는 목록",
+      icon: ICONS.ol,
       action: (ta) => insertLine(ta, "1. ", "항목"),
     },
     {
-      label: "Quote", title: "인용구", icon: ICONS.blockquote,
+      label: "Quote",
+      title: "인용구",
+      icon: ICONS.blockquote,
       action: (ta) => insertLine(ta, "> ", "인용문"),
     },
     {
-      label: "HR", title: "구분선", icon: ICONS.hr,
+      label: "HR",
+      title: "구분선",
+      icon: ICONS.hr,
       action: (ta) => {
         const { selectionStart: start, value } = ta;
         const insertion = "\n---\n";
         const next = value.slice(0, start) + insertion + value.slice(start);
         const nativeSetter = Object.getOwnPropertyDescriptor(
-          HTMLTextAreaElement.prototype, "value"
+          HTMLTextAreaElement.prototype,
+          "value",
         )?.set;
         nativeSetter?.call(ta, next);
         ta.dispatchEvent(new Event("input", { bubbles: true }));
@@ -118,7 +144,7 @@ function buildButtons(
 export function createToolbar(
   container: HTMLElement,
   textarea: HTMLTextAreaElement,
-  options: MarkdownEditorOptions
+  options: MarkdownEditorOptions,
 ): HTMLElement {
   const toolbar = document.createElement("div");
   toolbar.className =

@@ -34,7 +34,7 @@ export function MarkdownViewer({
       viewerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [content]);
 
   useEffect(() => {
     viewerRef.current?.render(content);

@@ -18,17 +18,26 @@ import type {
 
 // ─── 블록 파싱 정규식 ──────────────────────────────────────────────────────────
 
+// Header 블럭 (# ~ ######)
 const ATX_HEADING_RE = /^(#{1,6})\s+(.*?)(?:\s+#+\s*)?$/;
+// 코드 블럭 (```)
 const FENCED_CODE_RE = /^(`{3,}|~{3,})(.*)?$/;
+// 인용문 (>)
 const BLOCKQUOTE_RE = /^>\s?(.*)/;
+// 구분선(---, ===, ***)
 const THEMATIC_BREAK_RE = /^(?:---+|===+|\*\*\*+)\s*$/;
+// 순서 없는 리스트
 const UNORDERED_LIST_RE = /^([ \t]*)[-*+]\s+(.*)/;
+// 순서 있는 리스트
 const ORDERED_LIST_RE = /^([ \t]*)(\d+)\.\s+(.*)/;
+// 테이블
 const TABLE_SEPARATOR_RE = /^\|?[\s:|-]+[\s:|-|]*\|?$/;
+// HTML 태그
 const HTML_BLOCK_RE = /^<([a-zA-Z][a-zA-Z0-9-]*)[\s>]/;
 
 // ─── 유틸 ──────────────────────────────────────────────────────────────────────
 
+// 목록 깊이 측정
 function indentLevel(line: string): number {
   let count = 0;
   for (const ch of line) {
@@ -39,15 +48,19 @@ function indentLevel(line: string): number {
   return count;
 }
 
+// 테이블 행 파싱
 function parseTableRow(line: string, plugins: ParserPlugin[]): TableRow {
   const raw = line.replace(/^\||\|$/g, "");
-  const cells = raw.split("|").map((cell): TableCell => ({
-    type: "tableCell",
-    children: parseInlineTokens(cell.trim(), plugins),
-  }));
+  const cells = raw.split("|").map(
+    (cell): TableCell => ({
+      type: "tableCell",
+      children: parseInlineTokens(cell.trim(), plugins),
+    }),
+  );
   return { type: "tableRow", children: cells };
 }
 
+// 테이블 정렬
 function parseAlignRow(line: string): ("left" | "right" | "center" | null)[] {
   const raw = line.replace(/^\||\|$/g, "");
   return raw.split("|").map((cell) => {
@@ -67,7 +80,7 @@ function getLine(lines: string[], index: number): string {
 
 export function tokenize(
   markdown: string,
-  plugins: ParserPlugin[]
+  plugins: ParserPlugin[],
 ): BlockContent[] {
   const lines = markdown.split("\n");
   const nodes: BlockContent[] = [];
@@ -214,7 +227,10 @@ export function tokenize(
         } else if (currentIndent > baseIndent && items.length > 0) {
           // 들여쓰기된 하위 내용 → 마지막 아이템에 추가
           const subLines: string[] = [];
-          while (i < lines.length && indentLevel(getLine(lines, i)) > baseIndent) {
+          while (
+            i < lines.length &&
+            indentLevel(getLine(lines, i)) > baseIndent
+          ) {
             subLines.push(getLine(lines, i).slice(baseIndent + 2));
             i++;
           }
@@ -239,7 +255,10 @@ export function tokenize(
 
     // ── Table (GFM) ──
     // 다음 줄이 구분자 행인지 확인
-    if (i + 1 < lines.length && TABLE_SEPARATOR_RE.test(getLine(lines, i + 1).trim())) {
+    if (
+      i + 1 < lines.length &&
+      TABLE_SEPARATOR_RE.test(getLine(lines, i + 1).trim())
+    ) {
       const headerRow = parseTableRow(trimmed, plugins);
       const align = parseAlignRow(getLine(lines, i + 1).trim());
       const rows: TableRow[] = [headerRow];

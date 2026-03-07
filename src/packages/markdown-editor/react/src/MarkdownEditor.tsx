@@ -1,5 +1,5 @@
-import { MarkdownEditor as CoreEditor } from "@f-wiki/markdown-editor";
 import type { MarkdownEditorOptions } from "@f-wiki/markdown-editor";
+import { MarkdownEditor as CoreEditor } from "@f-wiki/markdown-editor";
 import { useEffect, useRef } from "react";
 
 export interface MarkdownEditorProps extends MarkdownEditorOptions {
@@ -52,7 +52,6 @@ export function MarkdownEditor({
       editor.destroy();
       editorRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 외부에서 value가 변경되면 에디터에 반영
