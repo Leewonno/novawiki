@@ -50,9 +50,9 @@ export function HomeRecentList() {
   const { data: recentList } = data;
 
   return (
-    <div className="col-span-1">
+    <div className="col-span-1 flex flex-col">
       <HomeTitle title={TITLE} />
-      <div className="rounded-lg border divide-y">
+      <div className="rounded-lg border divide-y flex-1">
         {recentList?.map((doc, i) => (
           <HomeRecentCard key={`${i}${doc.title}rec`} index={i} doc={doc} />
         ))}
