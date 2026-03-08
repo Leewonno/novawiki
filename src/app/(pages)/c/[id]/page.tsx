@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components";
 import type { ApiResponse, HistoryType } from "@/entities";
 import { WikiDiffer } from "@/features";
+import { isNaNValue } from "@/lib/utils/common";
 import { fetcher } from "@/lib/utils/fetcher";
 
 async function getCompare(
@@ -22,7 +23,10 @@ export default async function Compare({
   const { id } = await params;
   const { prev, next } = await searchParams;
 
-  if (!prev || !next) {
+  // prev, next 숫자 변환 가능한지 확인
+  const isNotNumber = isNaNValue(prev) || isNaNValue(next);
+
+  if (!prev || !next || isNotNumber) {
     return <div>잘못된 접근 방법입니다.</div>;
   }
 
