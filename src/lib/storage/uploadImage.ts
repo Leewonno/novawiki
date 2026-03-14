@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
 
 const BUCKET = "novawiki";
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 
 type Folder = "documents" | "avatars";
@@ -12,10 +11,6 @@ export async function uploadToStorage(
 ): Promise<string> {
   if (!ALLOWED_TYPES.includes(file.type)) {
     throw new Error(`허용되지 않는 파일 형식입니다. (${file.type})`);
-  }
-
-  if (file.size > MAX_SIZE) {
-    throw new Error("파일 크기는 5MB를 초과할 수 없습니다.");
   }
 
   const supabase = createClient();
