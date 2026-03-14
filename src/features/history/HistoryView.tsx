@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Button } from "@/components";
 import { simpleMessageToast } from "@/lib/utils/common";
 import { useHistoryStore } from "@/store/useHistoryStore";
@@ -14,7 +15,7 @@ type HistoryListProps = {
 
 export function HistoryView({ title }: HistoryListProps) {
   const router = useRouter();
-  const { prev, next } = useHistoryStore();
+  const { prev, next, reset } = useHistoryStore();
 
   const handleCompare = () => {
     if (prev !== null && next !== null) {
@@ -23,6 +24,10 @@ export function HistoryView({ title }: HistoryListProps) {
     }
     simpleMessageToast("선택 오류", "비교할 버전을 선택해 주세요.");
   };
+
+  useEffect(() => {
+    reset();
+  }, [reset]);
 
   return (
     <div className="w-full max-w-300 mx-auto flex flex-col gap-6">

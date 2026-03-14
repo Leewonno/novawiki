@@ -5,6 +5,7 @@ interface HistoryState {
   next: number | null;
   setPrev: (prev: HistoryState["prev"]) => void;
   setNext: (next: HistoryState["next"]) => void;
+  reset: () => void;
 }
 
 export const useHistoryStore = create<HistoryState>((set) => ({
@@ -12,4 +13,8 @@ export const useHistoryStore = create<HistoryState>((set) => ({
   next: null,
   setPrev: (prev) => set({ prev }),
   setNext: (next) => set({ next }),
+  reset: () => {
+    set({ prev: null });
+    set({ next: null });
+  },
 }));
