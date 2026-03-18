@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { compareQueryOptions } from "@/entities";
 import { CompareView } from "@/features";
+import { isNaNValue } from "@/lib/utils/common";
 
 export default async function Compare({
   params,
