@@ -1,5 +1,5 @@
 import { defaultQueryKey, defaultQueryOptions } from "@/lib/utils/query";
-import type { DocumentType } from "./types";
+import type { DocumentType } from "@/types";
 
 type HomeQueryType = "popular" | "recent";
 

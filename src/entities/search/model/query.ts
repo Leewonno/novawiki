@@ -1,7 +1,8 @@
 import { infiniteQueryOptions } from "@tanstack/react-query";
-import type { ApiResponse, DocumentType, SearchResponse } from "@/entities";
+import type { ApiResponse, SearchResponse } from "@/entities";
 import { fetcher } from "@/lib/utils/fetcher";
 import { defaultQueryKey, defaultQueryOptions } from "@/lib/utils/query";
+import type { DocumentType } from "@/types";
 
 type SearchQueryType = "title" | "content";
 
@@ -28,12 +29,12 @@ export const searchInfiniteQueryOptions = ({
   infiniteQueryOptions({
     queryKey: ["search", type, query],
     queryFn: async ({ pageParam }: { pageParam: number }) => {
-      const { data }: ApiResponse<SearchResponse<DocumentType>> = await fetcher(
+      const { data }: ApiResponse<SearchResponse> = await fetcher(
         `/api/document/search?q=${encodeURIComponent(query)}&type=${type}&page=${pageParam}`,
       );
       return {
-        docs: data?.[type].docs ?? [],
-        total: data?.[type].total ?? 0,
+        docs: data?.docs ?? [],
+        total: data?.total ?? 0,
       };
     },
     initialPageParam: 0,
