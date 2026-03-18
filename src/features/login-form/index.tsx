@@ -56,7 +56,7 @@ export function LoginForm() {
 
   return (
     <form action={handleAction} className="w-80">
-      <FieldGroup>
+      <FieldGroup className="gap-4">
         <Field>
           <Input
             id="input-field-userid"
@@ -78,10 +78,12 @@ export function LoginForm() {
           />
         </Field>
 
-        <Button type="submit" className="w-full cursor-pointer mt-2!">
+        <Button type="submit" className="w-full cursor-pointer mt-4!">
           로그인
         </Button>
-        <div className="w-full flex items-center justify-center">
+
+        {/* 소셜 로그인 */}
+        <div className="w-full flex items-center justify-center mt-2! mb-2!">
           <button
             type="button"
             className="cursor-pointer bg-white border border-gray-300 rounded-full p-2"
@@ -118,7 +120,7 @@ export function LoginForm() {
         <div className="text-center mt-3">
           <Link
             href="/signup"
-            className="text-sm text-muted-foreground hover:underline"
+            className="text-sm text-muted-foreground border-b border-gray-400 pb-0.5"
           >
             회원가입
           </Link>
