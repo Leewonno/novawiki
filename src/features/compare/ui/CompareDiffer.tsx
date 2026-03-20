@@ -114,9 +114,7 @@ export function CompareDiffer({
                 >
                   {line.highlightedContent || line.content || "\u00A0"}
                 </div>
-              ) : (
-                <></>
-              );
+              ) : null;
             })}
           </div>
         </div>
@@ -142,9 +140,7 @@ export function CompareDiffer({
                 >
                   {line.highlightedContent || line.content || "\u00A0"}
                 </div>
-              ) : (
-                <></>
-              );
+              ) : null;
             })}
           </div>
         </div>
