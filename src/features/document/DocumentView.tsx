@@ -6,6 +6,7 @@ import { Button } from "@/components";
 import { documentQueryOptions, documentVersionQueryOptions } from "@/entities";
 import { WikiViewer } from "@/features";
 import { addHeadingNumbers } from "@/lib/utils/common";
+import { ChatButton } from "./chat/ChatButton";
 import { DocumentDeletedBanner } from "./ui/DocumentDeletedBanner";
 import { DocumentHead } from "./ui/DocumentHead";
 import { DocumentIndex } from "./ui/DocumentIndex";
@@ -60,10 +61,10 @@ export function DocumentView({ id, v }: DocumentViewProps) {
             </div>
             <DocumentIndex content={content} />
           </div>
+
+          <ChatButton documentId={doc.id} id={id} />
         </>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </div>
   );
 }
