@@ -12,11 +12,6 @@ export async function GET(req: Request) {
 
   const offset = page * LIMIT;
 
-  let titleDocs: object[] = [];
-  let titleTotal = 0;
-  let contentDocs: object[] = [];
-  let contentTotal = 0;
-
   if (!type || type === "title") {
     const { data, count, error } = await supabase
       .from("document")
@@ -38,9 +33,15 @@ export async function GET(req: Request) {
         { status: 500 },
       );
     }
+    const docs = data ?? [];
+    const total = count ?? 0;
 
-    titleDocs = data ?? [];
-    titleTotal = count ?? 0;
+    return Response.json({
+      success: true,
+      data: { docs, total },
+      errorCode: null,
+      message: null,
+    });
   }
 
   if (!type || type === "content") {
@@ -65,17 +66,14 @@ export async function GET(req: Request) {
       );
     }
 
-    contentDocs = data ?? [];
-    contentTotal = count ?? 0;
-  }
+    const docs = data ?? [];
+    const total = count ?? 0;
 
-  return Response.json({
-    success: true,
-    data: {
-      title: { docs: titleDocs, total: titleTotal },
-      content: { docs: contentDocs, total: contentTotal },
-    },
-    errorCode: null,
-    message: null,
-  });
+    return Response.json({
+      success: true,
+      data: { docs, total },
+      errorCode: null,
+      message: null,
+    });
+  }
 }

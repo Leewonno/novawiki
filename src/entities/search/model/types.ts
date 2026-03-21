@@ -1,9 +1,6 @@
-export type SearchGroup<T> = {
-  docs: T[];
-  total: number;
-};
+import type { DocumentType } from "@/types";
 
-export type SearchResponse<T> = {
-  title: SearchGroup<T>;
-  content: SearchGroup<T>;
+export type SearchResponse = {
+  docs: DocumentType[];
+  total: number;
 };
