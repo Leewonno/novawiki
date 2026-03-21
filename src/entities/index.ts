@@ -1,4 +1,7 @@
 export type { ApiResponse, GoogleOAuthData } from "./api/model/types";
+// Chat
+export { chatQueryOptions } from "./chat/model/query";
+export type { ChatMessage } from "./chat/model/types";
 // Compare
 export { compareQueryOptions } from "./compare/model/query";
 // Document
