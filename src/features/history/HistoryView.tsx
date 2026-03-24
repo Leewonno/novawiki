@@ -45,7 +45,7 @@ export function HistoryView({ title }: HistoryListProps) {
       </div>
 
       {/* 이력 테이블 */}
-      <div className="rounded-lg border overflow-hidden">
+      <div className="rounded-lg border overflow-x-auto">
         {/* 테이블 헤더 */}
         <HistoryTableHead />
 
